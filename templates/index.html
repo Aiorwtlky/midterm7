@@ -1,21 +1,21 @@
-{% extends "base2.html" %}
-{% block title %}新牛仔褲北商粉絲後援會{% endblock title %}
-{% block headmessage %}<h3 style="font-family:微軟正黑體;font-size:14pt;font-weight=bold;">{% endblock headmessage %}
+{% extends "base.html" %}
+{% block title %}財團法人庭毅圖書館{% endblock title %}
+{% block headmessage %}<h3 style="font-family:標楷體;font-size:14pt;font-weight=bold;">{% endblock headmessage %}
 {% block content %}
 {% for post in posts %}
 <div class="card">
     <div class="card-harder">
-        <p style="font-family:微軟正黑體;font-size:14pt;font-weight=bold;">
+        <p style="font-family:微軟正黑體;font-size:14pt;font-weight=bold;color:#FFF4C1;background-color:#FFFFB9">
             <a href="/post/{{post.slug}}">{{post.title}}</a>
         </p>
     </div>
-    <div class="card-body" style="background-color:	#7AFEC6">
+    <div class="card-body" style="font-family:微軟正黑體;color:#FFF4C1;background-color:#D94600">
         <p>
             {{post.body|truncatechars:40}}
         </p>
     </div>
-    <div class="card-footer" style="background-color:#C4E1FF">
-        <p>
+    <div class="card-footer" style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00">
+        <p style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00">
             發佈ㄉ時間:{{post.pub_date| date:"Y M d, h:m:s"}}
         </p>
     </div>
