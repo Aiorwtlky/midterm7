@@ -18,13 +18,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mysite import views as mv
-from mysite.views import book_list, borrow_book, return_book
+from mysite.views import book_list, borrow_book, return_book, book_category
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("",mv.homepage, name="homepage"),
     path("post/<slug:slug>/",mv.showpost,name="showpost"),
     path('book_list/', book_list, name='book_list'),
+    path('basetest/<str:category>/', book_category, name='book_category'),
     path('borrow/<int:book_id>/', borrow_book, name='borrow_book'),
     path('return/<int:book_id>/', return_book, name='return_book'),
+    path('books/<str:category>/', book_category, name='book_category'),
 ]

@@ -6,6 +6,8 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     write = models.CharField(max_length=50, default="不詳")
     slug = models.CharField(max_length=200)
+    bookstype=[("一般書籍","一般書籍"),("教學用書","教學用書")]
+    category = models.CharField(max_length=20, choices=bookstype, default="一般書籍")
     body = models.TextField()
     isBorrow = models.BooleanField(_("外借中"), default=False)
     pub_date = models.DateTimeField(auto_now_add=True)
@@ -13,9 +15,9 @@ class Post(models.Model):
     @property
     def formatted_is_borrow(self):
         if self.isBorrow:
-            return '<span style="color: white; background-color: green; padding: 3px; border-radius: 3px;">外借中</span>'
+            return '<span style="color: black; background-color: white; border: 1px solid black; padding: 3px; border-radius: 3px;">外借中</span>'
         else:
-            return '<span style="color: black; background-color: white; border: 1px solid black; padding: 3px; border-radius: 3px;">未外借</span>'
+            return '<span style="color: white; background-color: green; padding: 3px; border-radius: 3px;">未外借</span>'
 
     formatted_is_borrow.fget.short_description = "外借狀態"
     

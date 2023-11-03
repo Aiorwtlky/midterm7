@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>書本類別</h2>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'book_category' category %}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

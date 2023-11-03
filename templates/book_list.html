@@ -1,34 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} {{ post.title }} 借還書系統 {% endblock %}
+{% block headmessage %}
+    <div class="card" style="background-color:#FFA042;">
+        <div class="card"; style="background-color:#842B00;">
+            <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">借還書系統</h3>
+        </div>
+    </div>
+{% endblock %}
 
-<h2>Book List</h2>
-
-{% if books %}
-    <ul>
-        {% for book in books %}
-            <li>
-                <strong>{{ book.title }}</strong> - {{ book.write }}
-                {% if book.isBorrow %}
-                    <span style="color: red;">(外借中)</span>
-                {% else %}
-                    <span style="color: green;">(可借閱)</span>
-                {% endif %}
-                <br>
-                <a href="{% url 'borrow_book' book.id %}">我要借書</a>
-                <a href="{% url 'return_book' book.id %}">我要還書</a>
-            </li>
-        {% endfor %}
-        <a style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00" href='/'>回首頁</a>
-    </ul>
-{% else %}
-    <p>No books available.</p>
-{% endif %}
-
-</body>
-</html>
+{% block content %}
+    {% if books %}
+        <ul class="list-group">
+            {% for book in books %}
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color:#FFF4C1;">
+                    <div>
+                        <strong>{{ book.title }}</strong> - {{ book.write }}
+                        {% if book.isBorrow %}
+                            <span class="badge bg-danger">外借中</span>
+                        {% else %}
+                            <span class="badge bg-success">可借閱</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <a href="{% url 'borrow_book' book.id %}" class="btn btn-primary btn-sm">我要借書</a>
+                        <a href="{% url 'return_book' book.id %}" class="btn btn-warning btn-sm">我要還書</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books available.</p>
+    {% endif %}
+    <a class="btn btn-sm" style="background-color:#842B00; color: #FFF4C1; margin-top: 10px;" href='/'>回首頁</a>
+{% endblock %}

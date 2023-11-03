@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from datetime import datetime
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
+from django.utils.text import slugify
 
 
 
@@ -51,6 +52,11 @@ def return_book(request, book_id):
 
     # 重定向到書籍清單頁面
     return HttpResponseRedirect(reverse('book_list'))
+
+def book_category(request, category):
+    category_slug = slugify(category)
+    books = Post.objects.filter(category=category_slug)
+    return render(request, 'basetest.html', {'books': books, 'category': category})
 
 
 
