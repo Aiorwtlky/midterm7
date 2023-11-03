@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
-{% block title %} {{ post.title }} 可愛叭 {% endblock %}
+{% block title %} {{ post.title }} {% endblock %}
 {% block headmessage %}
-    <h3 style="font-family:微軟正黑體;color:#003E3E;background-color:#80FFFF";'>{{ post.title }}</h3>
-    <a style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00"' href='/'>回首頁</a>
+<div class="card" style="background-color:#FFA042;">
+    <div class="card"; style="background-color:#842B00;">
+        <h3 style="font-family:微軟正黑體; font-size: 20pt; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">{{ post.title }}
+        <span style="font-family: 微軟正黑體; font-size: 12pt; font-weight: bold; color: #FFF4C1; margin-left: 15px; margin-top: 0; margin-bottom: 0; margin-right: 20px;">作者：{{post.write}}</span>
+        <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 0px;" href='/'>回首頁</a>
+        <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 5px;" href='/book_list'>去借閱</a>
+        </h3>
+    </div>
+</div>
 {% endblock %}
 {% block content %} 
-        <p style='font-family:微軟正黑體;font-size:12pt;letter-spacing:2pt;'>
-            {{ post.body|safe }}
-        </p>
+    <div class="row">
+        <div class="col-md-6">
+           <div class="card" style="font-family:微軟正黑體;font-size:14pt;background-color:#842B00; color:#FFF4C1; padding: 15px; margin-top: 10px;">
+                <b style="font-family:微軟正黑體; font-size: 20pt; padding: 0px; text-align: flex-start; margin: 0;">詳細介紹：</b>
+                    {{ post.body|safe }}
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="card" style="background-color:#842B00; color:#FFF4C1; padding: 10px; text-align: center;">
+                <b style="font-family:微軟正黑體; font-size: 20pt;">封面圖片：</b>
+                <div style="display: flex; justify-content: center; align-items: flex-start; margin-bottom: 30px;">
+                    {{ post.photolink|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -32,39 +32,17 @@ def book_list(request):
 def borrow_book(request, book_id):
     book = get_object_or_404(Post, id=book_id)
 
-    # 檢查書籍是否已經被借閱
     if not book.isBorrow:
-        # 更新 isBorrow 欄位
         book.isBorrow = True
         book.save()
 
-    # 重定向到書籍清單頁面
     return HttpResponseRedirect(reverse('book_list'))
 
 def return_book(request, book_id):
     book = get_object_or_404(Post, id=book_id)
 
-    # 檢查書籍是否已經被借閱
     if book.isBorrow:
-        # 更新 isBorrow 欄位
         book.isBorrow = False
         book.save()
 
-    # 重定向到書籍清單頁面
     return HttpResponseRedirect(reverse('book_list'))
-
-def book_category(request, category):
-    category_slug = slugify(category)
-    books = Post.objects.filter(category=category_slug)
-    return render(request, 'basetest.html', {'books': books, 'category': category})
-
-
-
-'''
-def homepage(request):
-    posts=Post.objects.all() #select*from post
-    post_lists=list()
-    for counter, post in enumerate(posts):
-        post_lists.append(f"No. {counter}-{post}<br>")
-    return HttpResponse(post_lists)
-'''
