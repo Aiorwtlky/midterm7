@@ -3,7 +3,11 @@
 {% block headmessage %}
     <div class="card" style="background-color:#FFA042;">
         <div class="card" style="background-color:#842B00;">
-            <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">首頁（好書推薦）</h3>
+            <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">首頁（所有書籍）
+                {% if user.is_staff %}
+                    <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 0px;" href="/add_book">新增書籍</a>
+                {% endif %}
+            </h3>
         </div>
     </div>
 {% endblock headmessage %}
@@ -15,6 +19,10 @@
         <p style="font-family: 微軟正黑體; font-size: 14pt; font-weight: bold; color: #FFF4C1; margin-top: 10px;">
             <a href="/post/{{post.slug}}" style="font-family: 微軟正黑體; font-size: 20pt; font-weight: bold; color: #FFF4C1; padding: 10px; display: inline;">{{post.title}}</a>
             <span style="font-family: 微軟正黑體; font-size: 12pt; font-weight: bold; color: #FFF4C1; margin-left: 15px; margin-top: 0; margin-bottom: 0; margin-right: 20px;">作者：{{post.write}}</span>
+            {% if user.is_staff %}
+                <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 10px;" href='{% url 'delete_book' slug=post.slug %}'>刪除書籍</a>
+                <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 10px;" href='{% url 'edit_book' book_id=post.id %}'>編輯書籍</a>
+            {% endif %}
         </p>
         <p style="font-family: 微軟正黑體; font-size: 12pt; font-weight: bold; color: #FFF4C1; margin-left: 10px;">
             {{post.formatted_is_borrow|safe}}
@@ -28,7 +36,7 @@
     </div>
     <div class="card-footer" style="font-family: 微軟正黑體; margin-top: 10px; color: #FFF4C1; background-color: #842B00; padding: 20px;">
         <p style="font-family:微軟正黑體; font-size:12pt; padding: 0px; margin-bottom: 0px;">
-            上架時間:{{post.pub_date| date:"Y M d, h:m:s"}}
+            上架時間:{{post.pub_date| date:" Y/m/d h:m:s"}}
         </p>
     </div>
 </div>

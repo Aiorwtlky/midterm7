@@ -4,23 +4,86 @@
 <div class="card" style="background-color:#FFA042;">
     <div class="card"; style="background-color:#842B00;">
         <h3 style="font-family:微軟正黑體; font-size: 25pt; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">{{ post.title }}
-        <span style="font-family: 微軟正黑體; font-size: 15pt; font-weight: bold; color: #FFF4C1; margin-left: 15px; margin-top: 0; margin-bottom: 0; margin-right: 20px;">作者：{{post.write}}</span>
-        
-        <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 0px;" href='/'>回首頁</a>
-        <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 5px;" href='/book_list'>去借閱</a>
+            <span style="font-family: 微軟正黑體; font-size: 15pt; font-weight: bold; color: #FFF4C1; margin-left: 15px; margin-top: 0; margin-bottom: 0; margin-right: 20px;">作者：{{post.write}}</span>    
+            <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 0px;" href='/'>回首頁</a>
+            <a class="btn btn-sm" style="background-color:#FFF4C1; color: #842B00; margin-top: 10px; float: right; margin-top: 0px; margin-right: 5px;" href='{{ request.META.HTTP_REFERER }}'>回前頁</a>
         </h3>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card" style="font-family:微軟正黑體;font-size:14pt;background-color:#842B00; color:#FFF4C1; padding: 15px; margin-top: 10px;">
+            <p style="font-family: 微軟正黑體; font-size: 18pt; font-weight: bold; color: #FFF4C1; margin-top: 20px;">
+                館藏狀態：{{post.formatted_is_borrow|safe}}                     
+            </p>
+            {% if post.isBorrow %}
+                {# 如果書籍已被借出 #}
+                {% if post.borrower == user.username %}
+                    {# 如果當前使用者是借書者，顯示還書按鈕 #}
+                    <a href="{% url 'return_book' post.id %}" class="btn btn-warning btn-sm" style="margin-top: 10px;">我要還書</a>
+                {% else %}
+                    {# 如果當前使用者不是借書者 #}
+                    {% if user in post.reservations.all %}
+                        {# 如果當前使用者已經預約了這本書，顯示取消預約按鈕 #}
+                        <a href="{% url 'cancel_reservation' post.id %}" class="btn btn-danger btn-sm" style="margin-top: 10px;">取消預約</a>
+                    {% else %}
+                        {# 如果當前使用者既不是借書者也沒有預約，顯示我要預約按鈕 #}
+                        <a href="{% url 'reserve_book' post.id %}" class="btn btn-success btn-sm" style="margin-top: 10px;">我要預約</a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {# 如果書籍沒被借出 #}
+                {% if post.reservations.all %}
+                    {# 如果預約者清單中有人 #}
+                    {% if user == post.reservations.first %}
+                        {# 如果當前使用者是清單中的最前面的人，顯示取消預約按鈕和我要借書按鈕 #}
+                        <a href="{% url 'cancel_reservation' post.id %}" class="btn btn-danger btn-sm" style="margin-top: 10px;">取消預約</a>
+                        <a href="{% url 'borrow_book' post.id %}" class="btn btn-primary btn-sm" style="margin-top: 10px;">我要借書</a>
+                    {% elif user in post.reservations.all %}
+                        {# 如果當前使用者是清單中的非最前面的人，顯示取消預約按鈕 #}
+                        <a href="{% url 'cancel_reservation' post.id %}" class="btn btn-danger btn-sm" style="margin-top: 10px;">取消預約</a>
+                    {% else %}
+                        {# 如果當前使用者不在清單中，顯示我要預約按鈕 #}
+                        <a href="{% url 'reserve_book' post.id %}" class="btn btn-success btn-sm" style="margin-top: 10px;">我要預約</a>
+                    {% endif %}
+                {% else %}
+                    {# 如果預約者清單中沒有人，顯示我要借書按鈕 #}
+                    <a href="{% url 'borrow_book' post.id %}" class="btn btn-primary btn-sm" style="margin-top: 10px;">我要借書</a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card" style="font-family:微軟正黑體;font-size:14pt;background-color:#842B00; color:#FFF4C1; padding: 15px; margin-top: 10px;">
+            <b style="font-family:微軟正黑體; font-size: 18pt; padding: 0px; text-align: flex-start; margin: 0;">預約者清單：</b>
+            
+            {# 如果書籍已被預約，顯示預約者清單 #}
+            {% if post.is_reserved %}
+                <div>
+                    <ul>
+                        {% for reservation in post.reservations.all %}
+                            <li>{{ reservation.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p>目前沒有預約者</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% if messages %}
+    <div class="messages" style="text-align: center; padding: 15px; margin-bottom: -30px;">
+    {% for message in messages %}
+    <p style="background-color:#FFF4C1; color:#FF0000;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+    </div>
+{% endif %}
 {% endblock %}
-{% block content %} 
+{% block content %}  
     <div class="row">
         <div class="col-md-6">
-
-            <div class="card" style="font-family:微軟正黑體;font-size:14pt;background-color:#842B00; color:#FFF4C1; padding: 15px; margin-top: 10px;">
-                <p style="font-family: 微軟正黑體; font-size: 18pt; font-weight: bold; color: #FFF4C1; margin-top: 20px;">
-                    館藏狀態：{{post.formatted_is_borrow|safe}}
-                </p>
-            </div>
             <div class="card" style="font-family:微軟正黑體;font-size:14pt;background-color:#842B00; color:#FFF4C1; padding: 15px; margin-top: 10px;">
                 <p style="font-family: 微軟正黑體; font-size: 18pt; font-weight: bold; color: #FFF4C1; margin-top: 20px;">
                     書籍分類：{{post.category|safe}}

@@ -22,24 +22,77 @@
             {% include "header.html" %}
             <div class="row">
                 <div class="col-sm-3 col-md-3">
-                    <div class="card" style="background-color:#FFAD86; margin-bottom: 10px">
+                    
+                    <div class="card" style="background-color:#FFAD86; margin-bottom: 10px; margin-top: 15px">
+
                         <div class="card-header">
                             <div class="card" style="background-color:#FFAD86;">
                                 <div class="card" style="background-color:#842B00;">
-                                    <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">關於本館</h3>
+                                    <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: -10px; margin-top: 5px; padding: 5px">
+                                        <div id="user-info">
+                                            {% if user.is_authenticated %}
+                                                <p>歡迎，{{ user.username }}！</p>
+                                            {% else %}
+                                                <p>訪客，您好！</p>
+                                            {% endif %}
+                                        </div>
+                                    </h3>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="list-group">
-                                
-                                <a style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00" href="/" class="list-group-item">首頁</a>
-                                <a style="font-family:微軟正黑體;color:#FFF4C1;background-color:#842B00" href="/book_list/" class="list-group-item">借還書系統</a>
-                            
+                            <div class="card" style="background-color:#FFAD86;">
+                                <div class="card" style="background-color:#842B00;">
+                                    <div class="list-group">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                {% if user.is_authenticated %}
+                                                    <button type="submit" style="width: 100px; background-color: #FFF4C1; border: none; cursor: pointer; border-radius: 10px; margin-top: 15px; margin-bottom: 15px;">
+                                                        <a style="width: 100%; display: block; color: #842B00; border-radius: 10px; padding: 5px;" href="{% url 'logout' %}"> 登出</a>
+                                                    </button>
+                                                {% else %}
+                                                    <button type="submit" style="width: 100px; background-color: #FFF4C1; border: none; cursor: pointer; border-radius: 10px; margin-top: 15px; margin-right: 10px; margin-bottom: 15px;">
+                                                        <a style="width: 100%; display: block; color: #842B00; border-radius: 10px; padding: 5px;" href="/register/">註冊</a>
+                                                    </button>
+                                                    <button type="submit" style="width: 100px; background-color: #FFF4C1; border: none; cursor: pointer; border-radius: 10px; margin-top: 15px; margin-bottom: 15px;">
+                                                        <a style="width: 100%; display: block; color: #842B00; border-radius: 10px; padding: 5px;" href="{% url 'login' %}">登入</a>
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>                               
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card" style="background-color:#FFAD86; margin-top: 30 px">
+
+
+                    <div class="card" style="background-color:#FFAD86; margin-bottom: 10px; margin-top: 15px">
+
+                        <div class="card-header">
+                            <div class="card" style="background-color:#FFAD86;">
+                                <div class="card" style="background-color:#842B00;">
+                                    <h3 style="font-family:微軟正黑體; color:#FFF4C1; margin-left: 10px; margin-bottom: 0px; padding: 10px">搜尋書籍</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card" style="background-color:#FFAD86;">
+                                <div class="card" style="background-color:#842B00;">
+                                    <div class="list-group">
+                                        
+                                        <form method="get" action="{% url 'search_books' %}" style="margin-top: 20px; display: flex; align-items: center; margin-top: 15px; margin-bottom: 15px; margin-left: 10px;">
+                                            <input type="text" name="q" id="search" required style="margin-right: 10px;  padding: 5px;">
+                                            <button type="submit" style="background-color: #FFF4C1; color: #842B00; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;;">搜尋</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background-color:#FFAD86; margin-top: 15px">
                         <div class="card-header">
                             <div class="card" style="background-color:#FFAD86;">
                                 <div class="card" style="background-color:#842B00;">
@@ -59,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-sm-9 col-md-9">
                     <div class="card" style="background-color:#FFAD86">
                         <div class="card-header">

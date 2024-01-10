@@ -3,7 +3,21 @@
 <div class="well" style="text-align: center; margin-bottom: 0px;">
     <img src="{% static "images/4.jpg" %}" style="width: 100%; max-width: 1500px;">
 </div>
-<div class="card" style="background-color:#842B00; margin-bottom: 10px; text-align: center;">
-    <h1 style="font-family:微軟正黑體; font-size:30pt; color:#FFF4C1; margin-top: 10px;">財團法人庭毅圖書館</h1>
+<div class="card" style="background-color:#842B00; margin-bottom: 10px; text-align: center; padding: 10px;">
+    <a href="/" style="text-decoration: none; color: #FFF4C1;">
+        {% if user.is_staff %}
+            <h1 style="font-family: 微軟正黑體; font-size: 30pt; color: #FFF4C1; margin-bottom: 0px; display: flex; align-items: center; justify-content: center;">
+                <span style="margin-right: 20px;">財團法人庭毅圖書館</span>
+                <span style="border: 2px solid #FFF4C1; border-radius: 10px; padding: 5px;">管理者模式</span>
+            </h1>
+        {% else %}
+            <h1 style="font-family: 微軟正黑體; font-size: 30pt; color: #FFF4C1 ;margin-bottom: 0px;">
+                財團法人庭毅圖書館
+            </h1>
+        {% endif %}
+    </a>
 </div>
+
+    
+    
 

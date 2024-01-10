@@ -18,7 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mysite import views as mv
-from mysite.views import book_list, borrow_book, return_book
+from mysite.views import book_list, borrow_book, return_book, reserve_book, cancel_reservation, add_book, edit_book, delete_book
+from mytest import views as testv
+from mytest.views import register, login, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +29,13 @@ urlpatterns = [
     path('book_list/', book_list, name='book_list'),
     path('borrow/<int:book_id>/', borrow_book, name='borrow_book'),
     path('return/<int:book_id>/', return_book, name='return_book'),
-    
+    path('register/', testv.register),
+    path('login/', testv.login, name='login'),
+    path('logout/', testv.logout, name='logout'),
+    path('search/', mv.search_books, name='search_books'),
+    path('reserve/<int:book_id>/', reserve_book, name='reserve_book'),
+    path('cancel/<int:book_id>/', cancel_reservation, name='cancel_reservation'),
+    path('add_book/', add_book, name='add_book'),
+    path('edit_book/<int:book_id>/', edit_book, name='edit_book'),
+    path('delete_book/<slug:slug>/', delete_book, name='delete_book'),
 ]
